@@ -1,6 +1,13 @@
 package _03_To_Do_List;
 
-public class ToDoList {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class ToDoList implements ActionListener{
 	/*
 	 * Create a program with five buttons, add task, view tasks, remove task, save list, and load list. 
 	 * 
@@ -21,4 +28,43 @@ public class ToDoList {
 	 * 
 	 * When the program starts, it should automatically load the last saved file into the list.
 	 */
+	
+	JFrame jf;
+	
+	JPanel jp;
+	
+	JButton jb1;
+	JButton jb2;
+	JButton jb3;
+	JButton jb4;
+	JButton jb5;
+	
+	void InitFrame() {
+		jf = new JFrame("hi");
+		
+		jp = new JPanel();
+		
+		jb1 = new JButton("add task");
+		jb2 = new JButton("view tasks");
+		jb3 = new JButton("remove task");
+		jb4 = new JButton("save list");
+		jb5 = new JButton("load list");
+		
+		jb1.addActionListener(this);
+		
+		jf.setVisible(true);
+		
+		jp.add(jb1);
+		jp.add(jb2);
+		jp.add(jb3);
+		jp.add(jb4);
+		jp.add(jb5);
+		
+		jf.add(jp);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+	}
 }
