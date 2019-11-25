@@ -2,9 +2,18 @@ package _03_To_Do_List;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ToDoList implements ActionListener{
@@ -39,6 +48,10 @@ public class ToDoList implements ActionListener{
 	JButton jb4;
 	JButton jb5;
 	
+	String lastSavedFileName = "src/_03_To_Do_List/test.txt";
+	
+	ArrayList<String> tasks;
+	
 	void InitFrame() {
 		jf = new JFrame("hi");
 		
@@ -51,7 +64,11 @@ public class ToDoList implements ActionListener{
 		jb5 = new JButton("load list");
 		
 		jb1.addActionListener(this);
-		
+		jb2.addActionListener(this);
+		jb3.addActionListener(this);
+		jb4.addActionListener(this);
+		jb5.addActionListener(this);
+
 		jf.setVisible(true);
 		
 		jp.add(jb1);
@@ -61,10 +78,62 @@ public class ToDoList implements ActionListener{
 		jp.add(jb5);
 		
 		jf.add(jp);
+		
+		tasks = new ArrayList<String>();
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(lastSavedFileName));
+			String s = "";
+			while ((s = br.readLine()) != null ){
+				tasks.add(s);
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		if(e.getSource() == jb1) {
+			tasks.add(JOptionPane.showInputDialog("Input a task"));
+		}else if(e.getSource() == jb2) {
+			String s = "";
+			for(int i = 0; i < tasks.size(); i++) {
+				s += "Task " + i + " = " + tasks.get(i) + "\n";
+				System.out.println("gsdg");
+			}
+			JOptionPane.showMessageDialog(null, s);
+		}else if(e.getSource() == jb3) {
+			int i = Integer.parseInt(JOptionPane.showInputDialog("Which one should be removed?"));
+			tasks.remove(i);
+		}else if(e.getSource() == jb4) {
+			try{
+				FileWriter fw = new FileWriter("src/_03_To_Do_List/test.txt");
+				String s = "";
+				for(int i = 0; i < tasks.size(); i++) {
+					s += tasks.get(i) + "\n";
+				}
+				fw.append(s);
+				fw.close();
+			}catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}else if(e.getSource() == jb5) {
+			lastSavedFileName = JOptionPane.showInputDialog("Where is the list");
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(lastSavedFileName));
+				String s = "";
+				tasks.clear();
+				while ((s = br.readLine()) != null ){
+					tasks.add(s);
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 		
+			
+		}
 	}
 }
